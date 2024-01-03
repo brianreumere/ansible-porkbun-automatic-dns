@@ -1,0 +1,3 @@
+---
+- name: install-from-url
+  src: https://github.com/brianreumere/ansible-role-install-from-url
