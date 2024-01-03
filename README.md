@@ -9,7 +9,7 @@
 - `pbad_domain`: The domain to update DNS records for
 - `pbad_record_names`: A list of DNS records to update
 
-`porkbun_api_key` and `porkbun_secret_key` should **not** be hardcoded and should be loaded from an [Ansible vault](https://docs.ansible.com/ansible/latest/vault_guide/index.html) file or other secrets manager.
+`porkbun_api_key` and `porkbun_secret_key` should **not** be hardcoded and should be set in an [Ansible vault](https://docs.ansible.com/ansible/latest/vault_guide/index.html) file or other secrets manager.
 
 ### Optional
 
