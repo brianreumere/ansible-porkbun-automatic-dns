@@ -1,0 +1,22 @@
+- name: Download pbad
+  get_url:
+    url: "{{ pbad_url }}"
+    checksum: "{{ pbad_checksum }}"
+    dest: /home/{{ nonroot_user }}/bin/pbad
+    owner: "{{ nonroot_user }}"
+    group: "{{ nonroot_user }}"
+    mode: 0740
+
+- name: Create pbad keyfile
+  template:
+    src: porkbunapi
+    dest: /home/{{ nonroot_user }}/.porkbunapi
+    owner: "{{ nonroot_user }}"
+    group: "{{ nonroot_user }}"
+    mode: 0600
+
+- name: Schedule pbad cronjob
+  cron:
+    name: pbad
+    minute: 0,15,30,45
+    job: /home/{{ nonroot_user }}/bin/pbad -i {{ pf_egress_if }} -d {{ pbad_domain }} -r "{{ pbad_records | join(' ') }}"
