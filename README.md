@@ -1,5 +1,9 @@
 # ansible-role-porkbun-automatic-dns
 
+## Overview
+
+Installs [porkbun-automatic-dns](https://github.com/brianreumere/porkbun-automatic-dns) and creates a cron job to run it periodically. Uses [ansible-role-install-from-url](https://github.com/brianreumere/ansible-role-install-from-url) to perform the install.
+
 ## Variables
 
 ### Required
@@ -9,12 +13,13 @@
 - `pbad_domain`: The domain to update DNS records for
 - `pbad_record_names`: A list of DNS records to update
 
-`porkbun_api_key` and `porkbun_secret_key` should **not** be hardcoded and should be set in an [Ansible vault](https://docs.ansible.com/ansible/latest/vault_guide/index.html) file or other secrets manager.
+`porkbun_api_key` and `porkbun_secret_key` should **not** be saved in plain text. They should be set in an [Ansible vault](https://docs.ansible.com/ansible/latest/vault_guide/index.html) file or other secrets manager.
 
 ### Optional
 
-- `pbad_version`: The version to install
-- `pbad_checksum`: The checksum of the downloaded release asset
+- `pbad_version`: The version to install ([default](defaults/main.yml) should be up-to-date)
+- `pbad_download_url`: The URL to download the release from ([default](defaults/main.yml) should be up-to-date)
+- `pbad_checksum`: The checksum of the downloaded release asset ([default](defaults/main.yml) should be up-to-date)
 - `pbad_install_dir`: The directory to copy the `pbad` script to, defaults to `/usr/local/bin`
 - `pbad_keyfile`: The path to the keyfile that will be created, defaults to `${HOME}/.porkbunapi`
 - `pbad_ext_ip_method`: The method to get the external IP with, defaults to `porkbun` (Porkbun API), also accepts `stdin` and `extif`
@@ -24,3 +29,52 @@
 - `pbad_cron_day_of_month`: The day of month field of the cron entry, defaults to `*`
 - `pbad_cron_month`: The month field of the cron entry, defaults to `*`
 - `pbad_cron_day_of_week`: The day of week field of the cron entry, defaults to `*`
+
+## Example
+
+Add the role to a `requirements.yml` file:
+
+```yaml
+---
+- name: porkbun-automatic-dns
+  src: https://github.com/brianreumere/ansible-role-porkbun-automatic-dns
+```
+
+Install the role:
+
+```sh
+ansible-galaxy install -r requirements.yml
+```
+
+Create an [Ansible vault](https://docs.ansible.com/ansible/latest/vault_guide/index.html) file to store your Porkbun API key and secret key:
+
+```sh
+ansible-vault create porkbun-secrets.yml
+```
+
+Edit the file to include your API key and secret key values:
+
+```yaml
+---
+porkbun_api_key: '<your API key>'
+porkbun_secret_key: '<your secret key>'
+```
+
+Use the role. This example configures `pbad` to use the network interface `em0` to determine the external IP address, and schedules it to run every 5 minutes instead of the default of every 15 minutes:
+
+```yaml
+---
+- name: Set up porkbun-automatic-dns
+  ansible.builtin.include_role:
+    name: porkbun-automatic-dns
+  vars_file:
+    - porkbun-secrets.yml
+  vars:
+    pbad_domain: example.org
+    pbad_record_names:
+      - '@'
+      - www
+    pbad_ext_ip_method: extif
+    pbad_ext_if: em0
+    pbad_cron_minute: '*/5'
+```
