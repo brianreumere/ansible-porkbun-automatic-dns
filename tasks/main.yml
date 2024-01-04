@@ -20,6 +20,7 @@
 - name: Schedule porkbun-automatic-dns cronjob
   cron:
     name: porkbun-automatic-dns
+    user: "{{ pbad_cron_user }}"
     minute: "{{ pbad_cron_minute }}"
     hour: "{{ pbad_cron_hour }}"
     day: "{{ pbad_cron_day_of_month }}"
