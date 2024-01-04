@@ -13,7 +13,7 @@ Installs [porkbun-automatic-dns](https://github.com/brianreumere/porkbun-automat
 - `pbad_domain`: The domain to update DNS records for
 - `pbad_record_names`: A list of DNS records to update
 
-`porkbun_api_key` and `porkbun_secret_key` should **not** be saved in plain text. They should be set in an [Ansible vault](https://docs.ansible.com/ansible/latest/vault_guide/index.html) file or other secrets manager.
+**`porkbun_api_key` and `porkbun_secret_key` should not be saved in plain text**. They should be encrypted using [Ansible vault](https://docs.ansible.com/ansible/latest/vault_guide/index.html) or stored in another secrets manager.
 
 ### Optional
 
@@ -46,10 +46,10 @@ Install the role:
 ansible-galaxy install -r requirements.yml
 ```
 
-Create an [Ansible vault](https://docs.ansible.com/ansible/latest/vault_guide/index.html) file to store your Porkbun API key and secret key:
+Create an [Ansible vault file](https://docs.ansible.com/ansible/latest/vault_guide/vault_encrypting_content.html#encrypting-files-with-ansible-vault) to store your Porkbun API key and secret key:
 
 ```sh
-ansible-vault create porkbun-secrets.yml
+ansible-vault create porkbun_secrets.yml
 ```
 
 Edit the file to include your API key and secret key values:
@@ -68,7 +68,7 @@ Use the role. This example configures `pbad` to use the network interface `em0` 
   ansible.builtin.include_role:
     name: porkbun-automatic-dns
   vars_file:
-    - porkbun-secrets.yml
+    - porkbun_secrets.yml
   vars:
     pbad_domain: example.org
     pbad_record_names:
