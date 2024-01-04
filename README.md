@@ -24,7 +24,7 @@ Installs [porkbun-automatic-dns](https://github.com/brianreumere/porkbun-automat
 - `pbad_ipv6`: Whether or not to update AAAA records instead of A records, defaults to `false`
 - `pbad_ext_ip_method`: The method to get the external IP with, defaults to `porkbun` (Porkbun API), also accepts `stdin` and `extif`
 - `pbad_ext_if`: The interface to get the external IP from (required if `pbad_ext_ip_method` is `extif`)
-- `pbad_keyfile`: The path to the keyfile that will be created, defaults to `.porkbunapi` in the home directory of `SUDO_USER` or `DOAS_USER` from the Ansible environment
+- `pbad_custom_keyfile`: The path to a custom keyfile that will be created, defaults to `false` (to fall back to `pbad`'s default)
 - `pbad_ttl`: The TTL to set on the records, defaults to `false` (to fall back to `pbad`'s default)
 - `pbad_cron_user`: The user whose crontab `pbad` will run from, defaults to `SUDO_USER` or `DOAS_USER` from the Ansible environment
 - `pbad_cron_minute`: The minute field of the cron entry, defaults to `*/15` (every 15 minutes)
