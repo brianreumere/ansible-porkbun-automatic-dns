@@ -21,7 +21,7 @@ Installs [porkbun-automatic-dns](https://github.com/brianreumere/porkbun-automat
 - `pbad_download_url`: The URL to download the release from ([default](defaults/main.yml) should be up-to-date)
 - `pbad_checksum`: The checksum of the downloaded release asset ([default](defaults/main.yml) should be up-to-date)
 - `pbad_install_dir`: The directory to copy the `pbad` script to, defaults to `/usr/local/bin`
-- `pbad_keyfile`: The path to the keyfile that will be created, defaults to `${HOME}/.porkbunapi`
+- `pbad_keyfile`: The path to the keyfile that will be created, defaults to `.porkbunapi` in the home directory of the `SUDO_USER` or `DOAS_USER` in the Ansible environment
 - `pbad_ext_ip_method`: The method to get the external IP with, defaults to `porkbun` (Porkbun API), also accepts `stdin` and `extif`
 - `pbad_ext_if`: The interface to get the external IP from (required if `pbad_ext_ip_method` is `extif`)
 - `pbad_cron_minute`: The minute field of the cron entry, defaults to `*/15` (every 15 minutes)
