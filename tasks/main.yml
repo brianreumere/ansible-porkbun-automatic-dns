@@ -27,7 +27,4 @@
     month: "{{ pbad_cron_month }}"
     weekday: "{{ pbad_cron_day_of_week }}"
     job: |
-      {{ pbad_install_dir.rstrip('/') }}/pbad
-      {%- if pbad_ext_ip_method == 'stdin' %} -s {% endif -%}
-      {%- if pbad_ext_ip_method == 'extif' %} -i {{ pbad_ext_if }} {% endif -%}
-      -d {{ pbad_domain }} -r "{{ pbad_record_names | join(' ') }}"
+      {{ pbad_install_dir.rstrip('/') }}/pbad{% if pbad_ext_ip_method == 'stdin' %} -s{% endif %}{% if pbad_ext_ip_method == 'extif' %} -i {{ pbad_ext_if }}{% endif %} -d {{ pbad_domain }} -r "{{ pbad_record_names | join(' ') }}"
